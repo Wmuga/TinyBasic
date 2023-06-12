@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using TinyBasic.Tokens.BaseTokens;
 
-namespace TinyBasic.Tokens.EndTokens
+namespace TinyBasic.Tokens.IntermTokens
 {
-    internal class NumberToken : IToken
+    internal class NumberToken : IToken, IFactorArg
     {
         public int Value { get; set; }
     }

@@ -7,7 +7,7 @@ using TinyBasic.Tokens.BaseTokens;
 
 namespace TinyBasic.Tokens.CharTokens
 {
-    internal class PlusMinusToken : IToken
+    internal class PlusMinusToken : IToken, IGreatSignNext, ILessSignNext
     {
         public PlusMinusType Type { get; set; }
     }

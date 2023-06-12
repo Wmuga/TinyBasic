@@ -9,8 +9,8 @@ using TinyBasic.Tokens.IntermTokens;
 
 namespace TinyBasic.Tokens.EndTokens
 {
-    internal class ExpressionToken : IToken, IExprListArg
-    {
+    internal class ExpressionToken : IToken, IExprListArg, IFactorArg
+	{
         public SignedTerm FirstTerm { get; set; }
         public List<SignedTerm> Terms { get; set; }
         internal record SignedTerm

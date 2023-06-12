@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TinyBasic.Tokens.BaseTokens;
 
-namespace TinyBasic.Tokens.EndTokens
+namespace TinyBasic.Tokens.IntermTokens
 {
     internal class RelopToken : IToken
     {

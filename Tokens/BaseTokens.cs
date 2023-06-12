@@ -9,4 +9,11 @@ namespace TinyBasic.Tokens.BaseTokens
 	internal interface IToken { }
 
 	internal interface IExprListArg { }
+
+	internal interface IFactorArg { }
+
+	internal interface IRelopArg { }
+
+	internal interface ILessSignNext { }
+	internal interface IGreatSignNext { }
 }
