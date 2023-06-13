@@ -8,6 +8,7 @@
                   INPUT var-list
                   LET var = expression
                   GOSUB expression
+                  REM string
                   RETURN
                   CLEAR
                   LIST

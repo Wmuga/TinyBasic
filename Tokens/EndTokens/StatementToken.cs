@@ -11,7 +11,12 @@ namespace TinyBasic.Tokens.EndTokens
     {
         public StatementType Type { get; set; }
         public List<IToken> Tokens { get; set; } = new();
-    }
+
+		public override string ToString()
+		{
+            return string.Format("StatementToken: {0}", Type);
+		}
+	}
 
     internal enum StatementType
     {
@@ -25,6 +30,7 @@ namespace TinyBasic.Tokens.EndTokens
         Clear,
         List,
         Run,
-        End
+        Rem,
+        End,
     };
 }

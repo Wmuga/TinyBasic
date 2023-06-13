@@ -5,8 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TinyBasic"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
-
+        Title="MainWindow" Height="474" Width="1052">
+    <Grid Margin="0,0,0,-6">
+        <TextBlock Margin="170,22,0,0" Text="Program Code" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Margin="40,66,632,70"  x:Name="ProgramCode" IsReadOnly="True"/>
+        <Button Content="Convert" HorizontalAlignment="Left" Margin="853,90,0,0" VerticalAlignment="Top" Height="47" Width="164" x:Name="ConvertButton" Click="ConvertButton_Click"/>
+        <TextBlock Margin="573,24,0,0" Text="Token Output" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Margin="443,68,229,68"  x:Name="TokenOutput" IsReadOnly="True"/>
     </Grid>
 </Window>

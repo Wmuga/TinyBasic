@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TinyBasic.Tokenizer;
 
 namespace TinyBasic
 {
@@ -23,6 +26,25 @@ namespace TinyBasic
 		public MainWindow()
 		{
 			InitializeComponent();
+		}
+
+		private void ConvertButton_Click(object sender, RoutedEventArgs e)
+		{
+			OpenFileDialog openFileDialog = new();
+			if (!(openFileDialog.ShowDialog()??false)) 
+			{
+				return;
+			}
+
+			TokenStream tokenizer = new(openFileDialog.FileName);
+			StringBuilder sb = new();
+			foreach(var token in tokenizer.GetTokens())
+			{
+				sb.Append(token.ToString());
+				sb.Append('\n');
+			}
+			TokenOutput.Text = sb.ToString();
+			ProgramCode.Text = new StreamReader(openFileDialog.FileName).ReadToEnd();
 		}
 	}
 }

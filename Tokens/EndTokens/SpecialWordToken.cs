@@ -7,14 +7,18 @@ using TinyBasic.Tokens.BaseTokens;
 
 namespace TinyBasic.Tokens.EndTokens
 {
-    internal class LineToken : IToken
-    {
-        public int LineNumber { get; set; }
-        public StatementToken Statement { get; set; } = new();
+	internal class SpecialWordToken : IToken
+	{
+		public SpecialWord Value { get; set; }
 
 		public override string ToString()
 		{
-			return "LineToken";
+			return string.Format("SpecialWordToken: {0}", Value);
+		}
+		public enum SpecialWord
+		{
+			Then,
+			Else
 		}
 	}
 }

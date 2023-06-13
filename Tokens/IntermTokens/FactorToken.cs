@@ -10,5 +10,10 @@ namespace TinyBasic.Tokens.IntermTokens
     internal class FactorToken : IToken
 	{
 		public IFactorArg Factor { get; set; }
+
+		public override string ToString()
+		{
+			return "FactorToken";
+		}
 	}
 }

@@ -7,14 +7,13 @@ using TinyBasic.Tokens.BaseTokens;
 
 namespace TinyBasic.Tokens.IntermTokens
 {
-    internal class RelopToken : IToken
-    {
-		public IRelopArg Value { get; set; }
+	internal class WordToken : IToken
+	{
+		public string Value { get; set; } = string.Empty;
 
 		public override string ToString()
 		{
-			return string.Format("RelopToken: {0}", Value);
+			return string.Format("WordToken: {0}", Value);
 		}
-
 	}
 }

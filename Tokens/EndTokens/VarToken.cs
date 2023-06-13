@@ -15,7 +15,12 @@ namespace TinyBasic.Tokens.EndTokens
         {
             A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z
         }
-    }
+
+		public override string ToString()
+		{
+            return string.Format("VariableToken: {0}", Name.ToString());
+		}
+	}
 
     internal class VarListToken : IToken
     {
