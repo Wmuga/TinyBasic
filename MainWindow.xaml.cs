@@ -35,16 +35,20 @@ namespace TinyBasic
 			{
 				return;
 			}
+			ProgramCode.Text = new StreamReader(openFileDialog.FileName).ReadToEnd();
 
 			TokenStream tokenizer = new(openFileDialog.FileName);
+			var tokens = tokenizer.GetTokens().ToList();
+
 			StringBuilder sb = new();
-			foreach(var token in tokenizer.GetTokens())
+			foreach (var token in tokens)
 			{
 				sb.Append(token.ToString());
 				sb.Append('\n');
 			}
 			TokenOutput.Text = sb.ToString();
-			ProgramCode.Text = new StreamReader(openFileDialog.FileName).ReadToEnd();
+
+
 		}
 	}
 }

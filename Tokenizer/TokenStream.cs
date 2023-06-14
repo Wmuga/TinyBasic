@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using TinyBasic.Tokens.BaseTokens;
 using TinyBasic.Tokens.CharTokens;
 using TinyBasic.Tokens.EndTokens;
+using TinyBasic.Tokens.IntermTokens;
 
 namespace TinyBasic.Tokenizer
 {
@@ -49,35 +50,9 @@ namespace TinyBasic.Tokenizer
 
 				var str = _line[_listPosition++];
 
-				if (str.StartsWith('"') && str.EndsWith('"'))
+				if (str == "\"")
 				{
-					yield return new QuotationToken();
-					if (str.Length >2)
-						yield return TokenConverter.FromString(str[1..^1], true);
-					yield return new QuotationToken();
-					continue;
-				}
-
-				if (str.StartsWith('"'))
-				{
-					if (_quotStarted)
-					{
-						throw new ArgumentException("Quotation already opened");
-					}
-					_quotStarted = true;
-					yield return new QuotationToken();
-					yield return TokenConverter.FromString(str[1..], true);
-					continue;
-				}
-
-				if (str.EndsWith('"'))
-				{
-					if (!_quotStarted)
-					{
-						throw new ArgumentException("No opening quotation");
-					}
-					_quotStarted = false;
-					yield return TokenConverter.FromString(str[..^1], true);
+					_quotStarted = !_quotStarted;
 					yield return new QuotationToken();
 					continue;
 				}
@@ -87,6 +62,7 @@ namespace TinyBasic.Tokenizer
 					IEnumerable<IToken> tokens = SplitBySign(str);
 					foreach(var token in tokens)
 					{
+						if (token is WordToken t && t.Value.Length == 0) continue;
 						yield return token;
 					}
 					continue;
@@ -138,6 +114,14 @@ namespace TinyBasic.Tokenizer
 						yield return SendNewToken();
 						yield return new EqSignToken();
 						break;
+					case ',':
+						yield return SendNewToken();
+						yield return new CommaToken() { Value = CommaToken.CommaType.Comma};
+						break;
+					case ';':
+						yield return SendNewToken();
+						yield return new CommaToken() { Value = CommaToken.CommaType.Comma };
+						break;
 					default:
 						sb.Append(c);
 						break;
@@ -157,6 +141,7 @@ namespace TinyBasic.Tokenizer
 			_listPosition = 0;
 			string line = _stream.ReadLine()?.Trim() ?? string.Empty;
 			_line = line
+				.Replace("\""," \" ")
 				.Split(new[] {'\t',' '})
 				.Where(x => x.Length > 0)
 				.ToList();
@@ -164,7 +149,7 @@ namespace TinyBasic.Tokenizer
 			return _line.Count;
 		}
 		
-		[GeneratedRegex("[+\\-*/<>=]", RegexOptions.Compiled)]
+		[GeneratedRegex("[+\\-*\\/<>=,;]", RegexOptions.Compiled)]
 		private static partial Regex SignRegex();
 
 	}

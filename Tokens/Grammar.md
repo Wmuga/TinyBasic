@@ -3,7 +3,7 @@
     line ::= number statement CR | statement CR
  
     statement ::= PRINT expr-list
-                  IF expression relop expression THEN statement
+                  IF logical-expression (THEN | ELSE) statement
                   GOTO expression
                   INPUT var-list
                   LET var = expression
@@ -11,7 +11,7 @@
                   REM string
                   RETURN
                   CLEAR
-                  LIST
+                  LIST (number | ε)
                   RUN
                   END
  
@@ -20,6 +20,8 @@
     var-list ::= var (, var)*
  
     expression ::= (+|-|ε) term ((+|-) term)*
+    
+    logical-expression ::= expression relop expression
  
     term ::= factor ((*|/) factor)*
  
