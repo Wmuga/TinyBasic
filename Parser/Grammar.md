@@ -3,7 +3,7 @@
     line ::= number statement CR | statement CR
  
     statement ::= PRINT expr-list
-                  IF logical-expression (THEN | ELSE) statement
+                  IF logical-expression (THEN statement | ELSE statement | THEN statement ELSE statement)
                   GOTO expression
                   INPUT var-list
                   LET var = expression

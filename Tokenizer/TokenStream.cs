@@ -17,9 +17,13 @@ namespace TinyBasic.Tokenizer
 		private int _listPosition;
 		private List<string> _line = new();
 		private readonly StreamReader _stream;
-		private static readonly EOFToken _EOFToken = new();
 		private bool _quotStarted = false;
 		
+		private static readonly EOFToken _EOFToken = new();
+		private static readonly ParenthesisToken _openBracket = new() { Open = true};
+		private static readonly ParenthesisToken _closedBracket = new() { Open = false };
+
+
 		public TokenStream(string filename) { 
 			_stream = new StreamReader(filename);
 		}
@@ -54,6 +58,18 @@ namespace TinyBasic.Tokenizer
 				{
 					_quotStarted = !_quotStarted;
 					yield return new QuotationToken();
+					continue;
+				}
+
+				if(str == "(")
+				{
+					yield return _openBracket;
+					continue;
+				}
+
+				if (str == ")")
+				{
+					yield return _closedBracket;
 					continue;
 				}
 
@@ -142,6 +158,8 @@ namespace TinyBasic.Tokenizer
 			string line = _stream.ReadLine()?.Trim() ?? string.Empty;
 			_line = line
 				.Replace("\""," \" ")
+				.Replace("("," ( ")
+				.Replace(")"," ) ")
 				.Split(new[] {'\t',' '})
 				.Where(x => x.Length > 0)
 				.ToList();

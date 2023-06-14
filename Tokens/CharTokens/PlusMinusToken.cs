@@ -14,7 +14,6 @@ namespace TinyBasic.Tokens.CharTokens
 
     internal enum PlusMinusType
     {
-        None,
         Plus,
         Minus,
     }

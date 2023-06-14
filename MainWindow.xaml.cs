@@ -48,7 +48,8 @@ namespace TinyBasic
 			}
 			TokenOutput.Text = sb.ToString();
 
-
+			var parser = new Parser.Parser(tokens);
+			var parsedTokens = parser.Parsed;
 		}
 	}
 }
