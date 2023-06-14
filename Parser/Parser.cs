@@ -22,7 +22,7 @@ namespace TinyBasic.Parser
 
 		private readonly static PlusMinusToken _plusToken = new PlusMinusToken() { Type = PlusMinusType.Plus };
 
-		public List<IToken> Parsed { get { return _lines; } }
+		public List<LineToken> Parsed { get { return _lines; } }
 
 		public Parser(IEnumerable<IToken> tokens)
 		{
