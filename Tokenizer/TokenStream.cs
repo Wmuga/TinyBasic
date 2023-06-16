@@ -136,7 +136,7 @@ namespace TinyBasic.Tokenizer
 						break;
 					case ';':
 						yield return SendNewToken();
-						yield return new CommaToken() { Value = CommaToken.CommaType.Comma };
+						yield return new CommaToken() { Value = CommaToken.CommaType.Semicolon };
 						break;
 					default:
 						sb.Append(c);
