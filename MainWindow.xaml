@@ -12,7 +12,7 @@
         <Button Content="Convert" HorizontalAlignment="Left" Margin="859,91,0,0" VerticalAlignment="Top" Height="47" Width="164" x:Name="ConvertButton" Click="ConvertButton_Click"/>
         <TextBlock Margin="457,24,0,0" Text="Token Output" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox Margin="409,68,427,68"  x:Name="TokenOutput" IsReadOnly="True"/>
-        <TextBox Margin="638,68,198,68"  x:Name="ParserTokenOutput" IsReadOnly="True"/>
-        <TextBlock Margin="657,24,0,0" Text="Parsed Token Output" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <TextBox Margin="638,68,198,68"  x:Name="ProgramOutput" IsReadOnly="True"/>
+        <TextBlock Margin="657,24,0,0" Text="Program Output" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Grid>
 </Window>

@@ -50,6 +50,17 @@ namespace TinyBasic
 
 			var parser = new Parser.Parser(tokens);
 			var parsedTokens = parser.Parsed;
+
+			var runner = new VirtualMachine.CodeRunner(parsedTokens, AddToOut);
+			runner.Run();
+		}
+
+		private void AddToOut(string outp)
+		{
+			Application.Current.Dispatcher.Invoke(() =>
+			{
+				ProgramOutput.Text += outp + '\n';
+			});
 		}
 	}
 }
