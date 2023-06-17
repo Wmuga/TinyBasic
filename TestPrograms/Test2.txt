@@ -1,0 +1,2 @@
+﻿INPUT A, B
+PRINT "Amogus", "SUS", ""; 10 + 20, (A+B)*30/10
