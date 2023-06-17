@@ -4,7 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TinyBasic.Tokens.BaseTokens;
+using TinyBasic.Tokens.CharTokens;
 using TinyBasic.Tokens.EndTokens;
+using TinyBasic.Tokens.IntermTokens;
+using static TinyBasic.Tokens.EndTokens.ExpressionToken;
 
 namespace TinyBasic.VirtualMachine
 {
@@ -15,7 +18,61 @@ namespace TinyBasic.VirtualMachine
 
 		private int EvalExpressionToken(ExpressionToken expr)
 		{
-			throw new NotImplementedException();
+			int sum = 0;
+			foreach(var token in expr.GetTerms())
+			{
+				if (token.Sign.Type == PlusMinusType.Plus)
+				{
+					sum += EvalTermToken(token.Term);
+					continue;
+				}
+				sum -= EvalTermToken(token.Term);
+			}
+			return sum;
 		}
+
+		private int EvalTermToken(TermToken term)
+		{
+			int res = 1;
+			foreach (var token in term.GetFactors())
+			{
+				if (token.Item1.Type == MulDivType.Multiply)
+				{
+					res *= EvalFactorToken(token.Item2);
+					continue;
+				}
+				res /= EvalFactorToken(token.Item2);
+			}
+			return res;
+		}
+
+		private int EvalFactorToken(FactorToken token) 
+		{
+			var factor = token.Factor;
+			if (factor is ExpressionToken expr) return EvalExpressionToken(expr);
+			if (factor is VarToken var) return _variables[var.Name];
+			if (factor is NumberToken numb) return numb.Value;
+			throw new InvalidProgramException("Empty factor");
+		}
+	}
+
+
+	internal static class TokenExtensions
+	{
+		public static IEnumerable<SignedTerm> GetTerms(this ExpressionToken expr)
+		{
+			yield return expr.FirstTerm;
+			foreach(var token in expr.Terms) 
+				yield return token;
+		}
+
+		public static IEnumerable<(MulDivToken,FactorToken)> GetFactors(this TermToken term)
+		{
+			yield return (mulSign,term.FirstFactor);
+			foreach (var token in term.Values)
+				yield return token;
+		}
+
+		private static readonly MulDivToken mulSign = new() { Type = MulDivType.Multiply };
 	}
 }
