@@ -66,6 +66,19 @@ namespace TinyBasic.VirtualMachine
 				yield return token;
 		}
 
+		public static IEnumerable<VarToken> GetVars(this VarListToken vars)
+		{
+			yield return vars.FirstVar;
+			foreach (var token in vars.Values)
+			{
+				if (token.Item1.Value != CommaToken.CommaType.Comma)
+				{
+					throw new InvalidProgramException("Variables should be comma separated");
+				}
+				yield return token.Item2;
+			}
+		}
+
 		public static IEnumerable<(MulDivToken,FactorToken)> GetFactors(this TermToken term)
 		{
 			yield return (mulSign,term.FirstFactor);

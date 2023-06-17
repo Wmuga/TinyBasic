@@ -23,6 +23,7 @@ namespace TinyBasic
 	/// </summary>
 	public partial class MainWindow : Window
 	{
+		private InputStream ins = new();
 		public MainWindow()
 		{
 			InitializeComponent();
@@ -51,8 +52,15 @@ namespace TinyBasic
 			var parser = new Parser.Parser(tokens);
 			var parsedTokens = parser.Parsed;
 
-			var runner = new VirtualMachine.CodeRunner(parsedTokens, AddToOut);
-			runner.Run();
+			try
+			{
+				var runner = new VirtualMachine.CodeRunner(parsedTokens, AddToOut, ins.GetNextManual);
+				runner.Run();
+			}
+			catch (Exception ex)
+			{
+				AddToOut(ex.Message);
+			}
 		}
 
 		private void AddToOut(string outp)
@@ -61,6 +69,17 @@ namespace TinyBasic
 			{
 				ProgramOutput.Text += outp + '\n';
 			});
+		}
+	}
+
+	internal class InputStream
+	{
+		private List<int> _inputs = new() { 10, 1, 20, 40};
+		private int _manInputIndex = 0;
+		public int GetNextManual()
+		{
+			_manInputIndex = _manInputIndex % _inputs.Count;
+			return _inputs[_manInputIndex++];
 		}
 	}
 }
