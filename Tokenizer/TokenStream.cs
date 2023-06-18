@@ -16,7 +16,7 @@ namespace TinyBasic.Tokenizer
 	{
 		private int _listPosition;
 		private List<string> _line = new();
-		private readonly StreamReader _stream;
+		private readonly TextReader _stream;
 		private bool _quotStarted = false;
 		
 		private static readonly EOFToken _EOFToken = new();
@@ -28,13 +28,8 @@ namespace TinyBasic.Tokenizer
 			_stream = new StreamReader(filename);
 		}
 
-		public TokenStream(Stream stream) { 
-			_stream = new StreamReader(stream);
-		}
-
-		public TokenStream(StreamReader sr)
-		{
-			_stream = sr;
+		public TokenStream(TextReader stream) { 
+			_stream = stream;
 		}
 
 		public IEnumerable<IToken> GetTokens()
