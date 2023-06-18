@@ -8,7 +8,7 @@ using TinyBasic.Tokens.BaseTokens;
 namespace TinyBasic.Tokens.CharTokens
 {
 
-    internal class EqSignToken : IToken, IRelopArg
+    internal class EqSignToken : IToken, IRelopArg, IGreatSignNext, ILessSignNext
 	{
 	}
 }
