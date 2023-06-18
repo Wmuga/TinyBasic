@@ -8,11 +8,12 @@
         Title="MainWindow" Height="474" Width="1052">
     <Grid Margin="0,0,0,-6">
         <TextBlock Margin="136,25,0,0" Text="Program Code" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <TextBox Margin="10,68,662,68"  x:Name="ProgramCode" IsReadOnly="True"/>
-        <Button Content="Convert" HorizontalAlignment="Left" Margin="859,91,0,0" VerticalAlignment="Top" Height="47" Width="164" x:Name="ConvertButton" Click="ConvertButton_Click"/>
+        <TextBox Margin="10,68,662,68"  x:Name="ProgramCode" AcceptsReturn="True"/>
         <TextBlock Margin="457,24,0,0" Text="Token Output" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
         <TextBox Margin="409,68,427,68"  x:Name="TokenOutput" IsReadOnly="True"/>
         <TextBox Margin="638,68,198,68"  x:Name="ProgramOutput" IsReadOnly="True"/>
         <TextBlock Margin="657,24,0,0" Text="Program Output" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <Button Content="Open" HorizontalAlignment="Left" Margin="859,91,0,0" VerticalAlignment="Top" Height="47" Width="164" x:Name="OpenButton" Click="OpenButton_Click"/>
+        <Button Content="Convert" HorizontalAlignment="Left" Margin="859,163,0,0" VerticalAlignment="Top" Height="47" Width="164" x:Name="ConvertButtony" Click="ConvertButton_Click"/>
     </Grid>
 </Window>

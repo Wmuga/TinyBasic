@@ -9,5 +9,9 @@ namespace TinyBasic.Tokens.CharTokens
 {
 	internal class QuotationToken : IToken
 	{
+		public override string ToString()
+		{
+			return "Quotation token";
+		}
 	}
 }

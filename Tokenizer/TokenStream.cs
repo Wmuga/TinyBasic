@@ -147,8 +147,6 @@ namespace TinyBasic.Tokenizer
 
 		private int ReadLine()
 		{
-			if (_stream.EndOfStream) return 0;
-
 			_listPosition = 0;
 			string line = _stream.ReadLine()?.Trim() ?? string.Empty;
 			_line = line

@@ -19,7 +19,7 @@ namespace TinyBasic.VirtualMachine
 		private int EvalExpressionToken(ExpressionToken expr)
 		{
 			int sum = 0;
-			foreach(var token in expr.GetTerms())
+			foreach (var token in expr.GetTerms())
 			{
 				if (token.Sign.Type == PlusMinusType.Plus)
 				{
@@ -46,7 +46,7 @@ namespace TinyBasic.VirtualMachine
 			return res;
 		}
 
-		private int EvalFactorToken(FactorToken token) 
+		private int EvalFactorToken(FactorToken token)
 		{
 			var factor = token.Factor;
 			if (factor is ExpressionToken expr) return EvalExpressionToken(expr);
@@ -54,8 +54,42 @@ namespace TinyBasic.VirtualMachine
 			if (factor is NumberToken numb) return numb.Value;
 			throw new InvalidProgramException("Empty factor");
 		}
-	}
 
+		private bool EvalLogExprToken(LogicalExpressionToken token)
+		{
+			var first = EvalExpressionToken(token.First);
+			var second = EvalExpressionToken(token.Second);
+			var relopVal = token.Relop.Value;
+			if (relopVal is LesserSingToken lst)
+			{
+				if (lst.Next is EqSignToken)
+				{
+					return first <= second;
+				}
+				if (lst.Next is GreaterSignToken)
+				{
+					return first != second;
+				}
+				return first < second;
+
+			}
+			
+			if(relopVal is GreaterSignToken gst)
+			{
+				if (gst.Next is EqSignToken)
+				{
+					return first >= second;
+				}
+				if (gst.Next is LesserSingToken)
+				{
+					return first != second;
+				}
+				return first > second;
+			}
+
+			return first == second;
+		}
+	}
 
 	internal static class TokenExtensions
 	{

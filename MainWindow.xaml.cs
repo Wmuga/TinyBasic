@@ -31,14 +31,8 @@ namespace TinyBasic
 
 		private void ConvertButton_Click(object sender, RoutedEventArgs e)
 		{
-			OpenFileDialog openFileDialog = new();
-			if (!(openFileDialog.ShowDialog()??false)) 
-			{
-				return;
-			}
-			ProgramCode.Text = new StreamReader(openFileDialog.FileName).ReadToEnd();
-
-			TokenStream tokenizer = new(openFileDialog.FileName);
+			StringReader sr = new(ProgramCode.Text);
+			TokenStream tokenizer = new(sr);
 			var tokens = tokenizer.GetTokens().ToList();
 
 			StringBuilder sb = new();
@@ -69,6 +63,16 @@ namespace TinyBasic
 			{
 				ProgramOutput.Text += outp + '\n';
 			});
+		}
+
+		private void OpenButton_Click(object sender, RoutedEventArgs e)
+		{
+			OpenFileDialog openFileDialog = new();
+			if (!(openFileDialog.ShowDialog() ?? false))
+			{
+				return;
+			}
+			ProgramCode.Text = new StreamReader(openFileDialog.FileName).ReadToEnd();
 		}
 	}
 

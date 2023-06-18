@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 using TinyBasic.Tokens.CharTokens;
 using TinyBasic.Tokens.EndTokens;
 using TinyBasic.Tokens.IntermTokens;
@@ -54,28 +55,100 @@ namespace TinyBasic.VirtualMachine
 				throw new InvalidProgramException($"Exception on line {line.LineNumber}. No statement");
 			}
 
-			StatementEvalResult evalRes = (line.Statement.Type) switch
-			{
-				StatementType.Print => PrintStatement(line.Statement),
-				StatementType.If => throw new NotImplementedException(),
-				StatementType.Goto => GotoStatement(line.Statement),
-				StatementType.Input => InputStatement(line.Statement),
-				StatementType.Let => LetStatement(line.Statement),
-				StatementType.Gosub => throw new NotImplementedException(),
-				StatementType.Return => throw new NotImplementedException(),
-				StatementType.Clear => throw new NotImplementedException(),
-				StatementType.List => throw new NotImplementedException(),
-				StatementType.Run => throw new NotImplementedException(),
-				StatementType.Rem => throw new NotImplementedException(),
-				StatementType.End => EndStatement(),
-				_ => throw new NotImplementedException("Unknown Statement"),
-			};
+			StatementEvalResult evalRes = EvalStatement(line.Statement);
 
 			if (!evalRes.Equals(StatementEvalResults.Success))
 			{
 				var errMsg = string.Format("Error on line {0}: {1}", line.LineNumber, evalRes.ErrorMessage);
 				throw new InvalidProgramException(errMsg);
 			}
+		}
+
+		private StatementEvalResult EvalStatement(StatementToken statement)
+		{
+			return (statement.Type) switch
+			{
+				StatementType.Print => PrintStatement(statement),
+				StatementType.If => IfStatement(statement),
+				StatementType.Goto => GotoStatement(statement),
+				StatementType.Input => InputStatement(statement),
+				StatementType.Let => LetStatement(statement),
+				StatementType.Gosub => throw new NotImplementedException(),
+				StatementType.Return => throw new NotImplementedException(),
+				StatementType.Clear => throw new NotImplementedException(),
+				StatementType.List => throw new NotImplementedException(),
+				StatementType.Run => throw new NotImplementedException(),
+				StatementType.Rem => RemStatement(statement),
+				StatementType.End => EndStatement(),
+				_ => throw new NotImplementedException("Unknown Statement"),
+			};
+		}
+
+		private StatementEvalResult IfStatement(StatementToken statement)
+		{
+			StatementToken? stmt2 = null;
+
+			if (statement.Type != StatementType.If)
+				return StatementEvalResults.WrongStatement;
+
+			if (statement.Tokens.Count != 3 && statement.Tokens.Count != 5)
+				return StatementEvalResults.WrongArgumentCount;
+
+			if (statement.Tokens[0] is not LogicalExpressionToken logExpr)
+				return StatementEvalResults.NoLogicalExpression;
+
+			if (statement.Tokens[1] is not SpecialWordToken spWord1 || (spWord1.Value != SpecialWordToken.SpecialWord.Then && spWord1.Value != SpecialWordToken.SpecialWord.Else))
+				return StatementEvalResults.NoThenElse;
+
+			if (statement.Tokens[2] is not StatementToken stmt1)
+				return StatementEvalResults.NoStatement;
+
+			if (statement.Tokens.Count == 5)
+			{
+				if (spWord1.Value != SpecialWordToken.SpecialWord.Then)
+					return StatementEvalResults.NoNewLine;
+
+				if (statement.Tokens[3] is not SpecialWordToken spWord2 || spWord2.Value != SpecialWordToken.SpecialWord.Else)
+					return StatementEvalResults.NoElse;
+
+				if (statement.Tokens[4] is not StatementToken _stmt2)
+					return StatementEvalResults.NoStatement;
+				
+				stmt2 = _stmt2;
+			}
+
+			bool logExpRes = EvalLogExprToken(logExpr);
+
+			if (logExpRes && spWord1.Value == SpecialWordToken.SpecialWord.Then)
+			{
+				return EvalStatement(stmt1);
+			}
+
+			if (spWord1.Value == SpecialWordToken.SpecialWord.Else)
+			{
+				return EvalStatement(stmt1);
+			}
+
+			if (stmt2 is not null)
+			{
+				return EvalStatement(stmt2);
+			}
+
+			return StatementEvalResults.InvalidState;
+		}
+
+		private StatementEvalResult RemStatement(StatementToken statement)
+		{
+			if (statement.Type != StatementType.Rem)
+				return StatementEvalResults.WrongStatement;
+
+			if (statement.Tokens.Count != 1)
+				return StatementEvalResults.WrongArgumentCount;
+
+			if (statement.Tokens[0] is not StringToken)
+				return StatementEvalResults.NoExpression;
+
+			return StatementEvalResults.Success;
 		}
 
 		private StatementEvalResult PrintStatement(StatementToken statement)
