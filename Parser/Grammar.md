@@ -10,7 +10,6 @@
                   GOSUB expression
                   REM string
                   RETURN
-                  CLEAR
                   LIST (number | ε)
                   RUN
                   END

@@ -117,8 +117,6 @@ namespace TinyBasic.Parser
 					break;
 				case StatementType.Return:
 					break;
-				case StatementType.Clear:
-					break;
 				case StatementType.List:
 					if (PeekNext() is not LineToken)
 					{

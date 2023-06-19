@@ -27,7 +27,6 @@ namespace TinyBasic.Tokens.EndTokens
         Let,
         Gosub,
         Return,
-        Clear,
         List,
         Run,
         Rem,
