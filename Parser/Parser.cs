@@ -126,12 +126,12 @@ namespace TinyBasic.Parser
 					}
 					break;
 				case StatementType.Run:
+					_programEnded = true;
 					break;
 				case StatementType.Rem:
 					statement.Tokens.Add(String());
 					break;
 				case StatementType.End:
-					_programEnded = true;
 					break;
 				default:
 					break;
