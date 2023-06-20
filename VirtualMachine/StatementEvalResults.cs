@@ -26,6 +26,7 @@ namespace TinyBasic.VirtualMachine
 			public static readonly StatementEvalResult NoLine = new() {Success = false, ErrorMessage = "Can't find line with given number" };
 			public static readonly StatementEvalResult NoNewLine = new() {Success = false, ErrorMessage = "Expected new line" };
 			public static readonly StatementEvalResult InvalidState = new() {Success = false, ErrorMessage = "Invalid machine state" };
+			public static readonly StatementEvalResult EmptyStack = new() {Success = false, ErrorMessage = "No return address" };
 		}
 	}
 }

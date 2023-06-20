@@ -9,9 +9,19 @@ namespace TinyBasic.Tokens.CharTokens
 {
 	internal class LesserSingToken : IToken, IRelopArg, IGreatSignNext { 
 		public ILessSignNext? Next { get; set; }
+
+		public IRelopArg? GetNext()
+		{
+			return Next as IRelopArg;
+		}
 	}
 
 	internal class GreaterSignToken : IToken, IRelopArg, ILessSignNext {
 		public IGreatSignNext? Next { get; set; }
+
+		public IRelopArg? GetNext()
+		{
+			return Next as IRelopArg;
+		}
 	}
 }

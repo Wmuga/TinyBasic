@@ -12,7 +12,10 @@ namespace TinyBasic.Tokens.BaseTokens
 
 	internal interface IFactorArg { }
 
-	internal interface IRelopArg { }
+	internal interface IRelopArg 
+	{
+		public IRelopArg? GetNext();
+	}
 
 	internal interface ILessSignNext { }
 	internal interface IGreatSignNext { }

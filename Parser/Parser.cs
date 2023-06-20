@@ -120,7 +120,7 @@ namespace TinyBasic.Parser
 				case StatementType.List:
 					if (PeekNext() is not LineToken)
 					{
-						statement.Tokens.Add(Expression());
+						statement.Tokens.Add(ExpressionList());
 					}
 					break;
 				case StatementType.Run:

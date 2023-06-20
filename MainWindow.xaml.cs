@@ -31,6 +31,9 @@ namespace TinyBasic
 
 		private void ConvertButton_Click(object sender, RoutedEventArgs e)
 		{
+			TokenOutput.Clear();
+			ProgramOutput.Clear();
+
 			StringReader sr = new(ProgramCode.Text);
 			TokenStream tokenizer = new(sr);
 			var tokens = tokenizer.GetTokens().ToList();

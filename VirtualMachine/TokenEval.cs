@@ -93,6 +93,18 @@ namespace TinyBasic.VirtualMachine
 
 	internal static class TokenExtensions
 	{
+		public static IEnumerable<IExprListArg> GetExpressions(this ExprListToken elt)
+		{
+			yield return elt.FirstExpression;
+			foreach (var token in elt.Values)
+			{
+				if (token.Item1.Value != CommaToken.CommaType.Comma)
+				{
+					throw new InvalidProgramException("Expressions should be comma separated");
+				}
+				yield return token.Item2;
+			}
+		}
 		public static IEnumerable<SignedTerm> GetTerms(this ExpressionToken expr)
 		{
 			yield return expr.FirstTerm;
